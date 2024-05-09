@@ -17,14 +17,14 @@
 from functools import lru_cache
 import logging
 
-from looker_sdk import error, init31
+from looker_sdk import error, init40
 
 
 class MetadataScraper:
     __DASHBOARD_FIELDS = 'id,title,created_at,description,space,hidden,' \
                          'user_id,view_count,favorite_count,' \
                          'last_accessed_at,last_viewed_at,deleted,' \
-                         'deleted_at,deleter_id,dashboard_elements'
+                         'deleted_at,deleter_id,dashboard_elements,dashboard_id'
     __FOLDER_FIELDS = 'id,name,parent_id,child_count,creator_id'
     __LOOK_FIELDS = 'id,title,created_at,updated_at,description,space,' \
                     'public,user_id,last_updater_id,query_id,url,short_url,' \
@@ -33,7 +33,7 @@ class MetadataScraper:
                     'last_viewed_at,deleted,deleter_id'
 
     def __init__(self, looker_credentials_file):
-        self.__sdk = init31(looker_credentials_file)
+        self.__sdk = init40(looker_credentials_file)
 
     def scrape_dashboard(self, dashboard_id):
         self.__log_scrape_start('Scraping dashboard by id: %s...',
@@ -62,7 +62,7 @@ class MetadataScraper:
 
         logging.info('%s dashboards found:', len(dashboards))
         for dashboard in dashboards:
-            logging.info('%s/%s [%s]', dashboard.space.name, dashboard.title,
+            logging.info('%s [%s]', dashboard.title,
                          dashboard.id)
 
         return dashboards
